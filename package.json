@@ -1,0 +1,70 @@
+{
+  "name": "@baichuan-shuhui/dsh-baichuan-shuhui",
+  "version": "0.1.0",
+  "description": "百川数汇科研数据清洗与统计分析引擎的 DeepSeek Harness 插件：30+ 子命令以原生工具形式暴露给模型",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "README.zh.md",
+    "cordis.patch.yml",
+    "python",
+    "lib"
+  ],
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baichuan-shuhui/dsh-baichuan-shuhui.git"
+  },
+  "homepage": "https://github.com/baichuan-shuhui/dsh-baichuan-shuhui#readme",
+  "bugs": {
+    "url": "https://github.com/baichuan-shuhui/dsh-baichuan-shuhui/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "statistics",
+    "data-analysis",
+    "research",
+    "python"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.19"
+  },
+  "packageManager": "pnpm@10.33.4",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test",
+    "check": "pnpm typecheck && pnpm build",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.0.1",
+    "@deepseek-ai/dsh-tools": "0.1.0-rc.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsdown": "^0.22.14",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,877 @@
+[
+  {
+    "key": "biomed",
+    "name": "生物医学 / 基础医学 / 临床医学",
+    "alias": [
+      "生物"
+    ],
+    "keywords": [
+      "log2fc",
+      "neglog10p",
+      "基因",
+      "表达量",
+      "随访时间",
+      "事件",
+      "go_term",
+      "通路",
+      "m_logratio",
+      "a_mean",
+      "效应量",
+      "组别",
+      "系列"
+    ],
+    "directions": [
+      {
+        "name": "高通量组学",
+        "keywords": [
+          "log2fc",
+          "neglog10p",
+          "go_term",
+          "通路",
+          "m_logratio",
+          "a_mean",
+          "表达量"
+        ]
+      },
+      {
+        "name": "单细胞测序 scRNA-seq",
+        "keywords": [
+          "dim1",
+          "dim2",
+          "基因",
+          "表达量",
+          "系列"
+        ]
+      },
+      {
+        "name": "细胞 / 动物实验",
+        "keywords": [
+          "参数1",
+          "参数2",
+          "分组",
+          "系列"
+        ]
+      },
+      {
+        "name": "临床流行病学 / 病例分析",
+        "keywords": [
+          "随访时间",
+          "事件",
+          "效应量",
+          "ci宽度",
+          "研究"
+        ]
+      },
+      {
+        "name": "病理 / 影像学",
+        "keywords": [
+          "权重",
+          "通路靶"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "biomed_omics_batch",
+        "method": "isolation_forest",
+        "contamination": 0.05,
+        "grade": "L2",
+        "advice": "优先用 ComBat/limma 做批次校正并核对批次变量；具有明确生物意义（如驱动突变）的离群须保留。",
+        "keywords": [
+          "log2fc",
+          "neglog10p",
+          "表达量",
+          "go_term",
+          "通路"
+        ],
+        "applicable_fields": [
+          "log2fc",
+          "表达量",
+          "a_mean"
+        ]
+      },
+      {
+        "id": "biomed_scrna_droplet",
+        "method": "isolation_forest",
+        "contamination": 0.08,
+        "grade": "L2",
+        "advice": "按线粒体比例/UMI 数过滤空滴；用 scrublet 识别 doublet；真实稀有细胞类型应保留。",
+        "keywords": [
+          "dim1",
+          "dim2",
+          "基因",
+          "表达量"
+        ],
+        "applicable_fields": [
+          "dim1",
+          "dim2",
+          "表达量"
+        ]
+      },
+      {
+        "id": "biomed_clinical_extreme",
+        "method": "iqr",
+        "factor": 3.0,
+        "grade": "L2",
+        "advice": "核查是否删失/录入错误；极端但真实者保留并做敏感性分析（如 Cox 稳健估计）。",
+        "keywords": [
+          "随访时间",
+          "事件",
+          "效应量",
+          "ci宽度"
+        ],
+        "applicable_fields": [
+          "随访时间",
+          "效应量"
+        ]
+      }
+    ],
+    "viz": [
+      "volcano",
+      "ma",
+      "heatmap",
+      "bubble",
+      "sankey",
+      "umap",
+      "ridge",
+      "errorbar",
+      "line",
+      "box",
+      "flow",
+      "mosaic",
+      "km",
+      "forest",
+      "roc"
+    ]
+  },
+  {
+    "key": "agri_env",
+    "name": "农林环境科学（土壤/植物/微生物/生态）",
+    "alias": [
+      "环境"
+    ],
+    "keywords": [
+      "养分mg",
+      "污染物mg",
+      "土层",
+      "土地利用",
+      "样点",
+      "物种",
+      "门水平",
+      "相对丰度",
+      "株高cm",
+      "生物量g",
+      "光合速率",
+      "降雨mm",
+      "流域",
+      "生境",
+      "施肥梯度",
+      "湿度",
+      "温度"
+    ],
+    "directions": [
+      {
+        "name": "土壤理化 / 环境监测",
+        "keywords": [
+          "养分mg",
+          "污染物mg",
+          "土层",
+          "土地利用",
+          "样点",
+          "湿度",
+          "温度"
+        ]
+      },
+      {
+        "name": "植物生理 / 栽培实验",
+        "keywords": [
+          "株高cm",
+          "生物量g",
+          "光合速率",
+          "植物",
+          "施肥梯度"
+        ]
+      },
+      {
+        "name": "微生物组",
+        "keywords": [
+          "门水平",
+          "相对丰度",
+          "物种"
+        ]
+      },
+      {
+        "name": "生态 / 污染修复 / 流域",
+        "keywords": [
+          "流域",
+          "生境",
+          "降雨mm",
+          "流量权重"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "agri_env_timeseries",
+        "method": "iqr",
+        "factor": 3.0,
+        "grade": "L2",
+        "advice": "对孤立跳点优先插值修复或标注，避免直接删除以丢失时序连续性。",
+        "keywords": [
+          "养分mg",
+          "污染物mg",
+          "温度"
+        ],
+        "applicable_fields": [
+          "养分mg",
+          "污染物mg",
+          "温度"
+        ]
+      },
+      {
+        "id": "agri_env_community",
+        "method": "isolation_forest",
+        "contamination": 0.05,
+        "grade": "L2",
+        "advice": "核查物种注释与测序深度；稀有但真实的分类单元（如关键功能菌）应保留。",
+        "keywords": [
+          "门水平",
+          "相对丰度",
+          "物种"
+        ],
+        "applicable_fields": [
+          "相对丰度",
+          "物种"
+        ]
+      }
+    ],
+    "viz": [
+      "line",
+      "kriging",
+      "contour",
+      "box",
+      "grouped",
+      "heatmap",
+      "sankey",
+      "stacked",
+      "umap",
+      "ridge",
+      "bubble",
+      "mosaic"
+    ]
+  },
+  {
+    "key": "materials",
+    "name": "材料科学 / 高分子 / 金属 / 新能源",
+    "alias": [
+      "材料"
+    ],
+    "keywords": [
+      "应力mpa",
+      "应变",
+      "电流ma",
+      "电压v",
+      "容量mah",
+      "阻抗ohm",
+      "粒径nm",
+      "角度deg",
+      "波长nm",
+      "催化活性",
+      "材料类型",
+      "元素占比",
+      "温度k"
+    ],
+    "directions": [
+      {
+        "name": "材料形貌 / 微观结构表征",
+        "keywords": [
+          "粒径nm",
+          "角度deg",
+          "波长nm",
+          "强度",
+          "元素"
+        ]
+      },
+      {
+        "name": "力学 / 电化学 / 光电性能",
+        "keywords": [
+          "应力mpa",
+          "应变",
+          "电流ma",
+          "电压v",
+          "容量mah",
+          "阻抗ohm",
+          "温度k"
+        ]
+      },
+      {
+        "name": "有限元仿真 / 数值模拟",
+        "keywords": [
+          "温度k",
+          "时间s",
+          "材料类型"
+        ]
+      },
+      {
+        "name": "催化 / 吸附 / 储能机理",
+        "keywords": [
+          "催化活性",
+          "元素",
+          "元素占比"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "mat_mech_overlimit",
+        "method": "iqr",
+        "factor": 1.5,
+        "grade": "L3",
+        "advice": "超量程/超规格读数视为无效，检查夹具与传感器；材料退化拐点（如容量跳水）须保留。",
+        "keywords": [
+          "应力mpa",
+          "电压v",
+          "容量mah"
+        ],
+        "applicable_fields": [
+          "应力mpa",
+          "电压v",
+          "容量mah"
+        ]
+      },
+      {
+        "id": "mat_morphology_outlier",
+        "method": "isolation_forest",
+        "contamination": 0.06,
+        "grade": "L2",
+        "advice": "核对标样与成像参数；团聚体须区别于真实纳米颗粒，必要时复测。",
+        "keywords": [
+          "粒径nm",
+          "强度"
+        ],
+        "applicable_fields": [
+          "粒径nm",
+          "强度"
+        ]
+      }
+    ],
+    "viz": [
+      "hist",
+      "line",
+      "errorbar",
+      "contour",
+      "network",
+      "stacked",
+      "volcano"
+    ]
+  },
+  {
+    "key": "cs",
+    "name": "计算机 / 人工智能 / 机器学习",
+    "alias": [
+      "计算机"
+    ],
+    "keywords": [
+      "准确率",
+      "精确率",
+      "召回率",
+      "f1",
+      "损失",
+      "验证损失",
+      "轮次",
+      "特征",
+      "重要性",
+      "维度1",
+      "维度2",
+      "注意力",
+      "参数量m",
+      "速度ms",
+      "任务",
+      "模型"
+    ],
+    "directions": [
+      {
+        "name": "模型性能评估",
+        "keywords": [
+          "准确率",
+          "精确率",
+          "召回率",
+          "f1",
+          "损失",
+          "验证损失",
+          "轮次"
+        ]
+      },
+      {
+        "name": "数据降维 / 特征分析",
+        "keywords": [
+          "维度1",
+          "维度2",
+          "特征",
+          "重要性",
+          "类别"
+        ]
+      },
+      {
+        "name": "深度学习 / 图像时序任务",
+        "keywords": [
+          "注意力",
+          "速度ms",
+          "参数量m",
+          "模型"
+        ]
+      },
+      {
+        "name": "通信 / 微电子 / 信号处理",
+        "keywords": [
+          "频谱",
+          "信号",
+          "信噪"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "cs_metric_crash",
+        "method": "iqr",
+        "factor": 3.0,
+        "grade": "L3",
+        "advice": "NaN/Inf 多因除零或梯度溢出，检查学习率与数值稳定；突然 plateau 多为学习率不当。",
+        "keywords": [
+          "准确率",
+          "损失",
+          "验证损失"
+        ],
+        "applicable_fields": [
+          "准确率",
+          "损失",
+          "验证损失"
+        ]
+      },
+      {
+        "id": "cs_dim_outlier",
+        "method": "isolation_forest",
+        "contamination": 0.05,
+        "grade": "L2",
+        "advice": "核查是否为标注错误/对抗样本；边界但合理的簇应保留。",
+        "keywords": [
+          "维度1",
+          "维度2"
+        ],
+        "applicable_fields": [
+          "维度1",
+          "维度2"
+        ]
+      }
+    ],
+    "viz": [
+      "roc",
+      "heatmap",
+      "grouped",
+      "line",
+      "umap",
+      "scatter",
+      "network",
+      "contour"
+    ]
+  },
+  {
+    "key": "chem",
+    "name": "化学 / 化工 / 分析化学 / 催化",
+    "alias": [
+      "化学"
+    ],
+    "keywords": [
+      "波长nm",
+      "吸光度",
+      "化学位移ppm",
+      "强度",
+      "时间min",
+      "浓度",
+      "反应速率",
+      "产率",
+      "催化剂",
+      "反应物",
+      "产物",
+      "谱峰编号",
+      "反应器x",
+      "反应器y"
+    ],
+    "directions": [
+      {
+        "name": "光谱 / 色谱分析",
+        "keywords": [
+          "波长nm",
+          "吸光度",
+          "化学位移ppm",
+          "强度",
+          "谱峰编号"
+        ]
+      },
+      {
+        "name": "反应动力学 / 热力学",
+        "keywords": [
+          "时间min",
+          "浓度",
+          "反应速率",
+          "温度",
+          "产率"
+        ]
+      },
+      {
+        "name": "化工流程 / 物质转化",
+        "keywords": [
+          "催化剂",
+          "反应物",
+          "产物",
+          "流量权重",
+          "反应器x",
+          "反应器y"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "chem_spectrum_noise",
+        "method": "zscore",
+        "factor": 3.0,
+        "grade": "L2",
+        "advice": "仪器尖峰建议平滑或剔除；若为依据明确的真实吸收峰须保留。",
+        "keywords": [
+          "吸光度",
+          "强度",
+          "化学位移ppm"
+        ],
+        "applicable_fields": [
+          "吸光度",
+          "强度",
+          "化学位移ppm"
+        ]
+      },
+      {
+        "id": "chem_reaction_overlimit",
+        "method": "iqr",
+        "factor": 1.5,
+        "grade": "L3",
+        "advice": "负浓度/超 100% 产率为计算或录入错误；动力学拐点（如自加速）须保留。",
+        "keywords": [
+          "浓度",
+          "产率",
+          "反应速率"
+        ],
+        "applicable_fields": [
+          "浓度",
+          "产率",
+          "反应速率"
+        ]
+      }
+    ],
+    "viz": [
+      "line",
+      "errorbar",
+      "sankey",
+      "stacked",
+      "contour"
+    ]
+  },
+  {
+    "key": "civil_geo",
+    "name": "土木水利 / 地质资源 / 测绘地理",
+    "alias": [
+      "土木地质",
+      "土木"
+    ],
+    "keywords": [
+      "荷载kn",
+      "位移mm",
+      "强度mpa",
+      "试样",
+      "降雨量mm",
+      "高程m",
+      "流域",
+      "流量权重",
+      "地层",
+      "矿物占比",
+      "x坐标",
+      "y坐标",
+      "地球化学指标",
+      "构件",
+      "指标值"
+    ],
+    "directions": [
+      {
+        "name": "岩土 / 结构力学仿真",
+        "keywords": [
+          "荷载kn",
+          "位移mm",
+          "强度mpa",
+          "试样",
+          "构件"
+        ]
+      },
+      {
+        "name": "水文 / 流域 / 水资源",
+        "keywords": [
+          "降雨量mm",
+          "高程m",
+          "流域",
+          "流量权重"
+        ]
+      },
+      {
+        "name": "地质勘探 / 矿产资源",
+        "keywords": [
+          "地层",
+          "矿物占比",
+          "地球化学指标",
+          "元素",
+          "x坐标",
+          "y坐标"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "civil_geo_load_overlimit",
+        "method": "iqr",
+        "factor": 1.5,
+        "grade": "L3",
+        "advice": "超设计值核查加载与传感器；灾变前兆（位移突变）必须保留并预警。",
+        "keywords": [
+          "荷载kn",
+          "位移mm",
+          "强度mpa"
+        ],
+        "applicable_fields": [
+          "荷载kn",
+          "位移mm",
+          "强度mpa"
+        ]
+      },
+      {
+        "id": "civil_geo_geochem",
+        "method": "isolation_forest",
+        "contamination": 0.05,
+        "grade": "L2",
+        "advice": "区分仪器漂移与真实矿化异常；高值靶区须复核取样与测试方法。",
+        "keywords": [
+          "矿物占比",
+          "地球化学指标"
+        ],
+        "applicable_fields": [
+          "矿物占比",
+          "地球化学指标"
+        ]
+      }
+    ],
+    "viz": [
+      "contour",
+      "line",
+      "box",
+      "sankey",
+      "stacked",
+      "scatter"
+    ]
+  },
+  {
+    "key": "econ_soc",
+    "name": "经济学 / 管理学 / 社科（心理/社会）",
+    "alias": [
+      "经济社科",
+      "经济"
+    ],
+    "keywords": [
+      "满意度",
+      "得分",
+      "学历",
+      "收入分层",
+      "年份",
+      "gdp",
+      "物价",
+      "自变量",
+      "因变量",
+      "效应量",
+      "ci宽度",
+      "行为选择",
+      "政策群体",
+      "网络节点",
+      "节点度",
+      "人群"
+    ],
+    "directions": [
+      {
+        "name": "问卷调研 / 统计描述",
+        "keywords": [
+          "满意度",
+          "得分",
+          "学历",
+          "收入分层",
+          "人群",
+          "性别"
+        ]
+      },
+      {
+        "name": "计量经济学 / 回归分析",
+        "keywords": [
+          "自变量",
+          "因变量",
+          "效应量",
+          "ci宽度",
+          "年份",
+          "gdp",
+          "物价",
+          "研究"
+        ]
+      },
+      {
+        "name": "行为心理 / 社会网络",
+        "keywords": [
+          "行为选择",
+          "政策群体",
+          "网络节点",
+          "节点度",
+          "类别"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "econ_survey_outlier",
+        "method": "iqr",
+        "factor": 3.0,
+        "grade": "L2",
+        "advice": "矛盾题/直线作答视为无效；天花板效应须报告而非删除，并在分析中注明。",
+        "keywords": [
+          "满意度",
+          "得分"
+        ],
+        "applicable_fields": [
+          "满意度",
+          "得分"
+        ]
+      },
+      {
+        "id": "econ_reg_influential",
+        "method": "iqr",
+        "factor": 3.0,
+        "grade": "L2",
+        "advice": "用 Cook 距离识别强影响点；确认后做稳健回归或敏感性分析，勿盲目删除。",
+        "keywords": [
+          "因变量",
+          "效应量"
+        ],
+        "applicable_fields": [
+          "因变量",
+          "效应量"
+        ]
+      }
+    ],
+    "viz": [
+      "grouped",
+      "mosaic",
+      "box",
+      "scatter",
+      "forest",
+      "line",
+      "heatmap",
+      "sankey",
+      "network"
+    ]
+  },
+  {
+    "key": "math_stat",
+    "name": "数学 / 统计学",
+    "alias": [
+      "数学"
+    ],
+    "keywords": [
+      "数值x",
+      "数值y",
+      "维度1",
+      "维度2",
+      "相关系数",
+      "拟合x",
+      "拟合y",
+      "样本",
+      "组别",
+      "计数"
+    ],
+    "directions": [],
+    "rules": [
+      {
+        "id": "math_stat_outlier",
+        "method": "iqr",
+        "factor": 1.5,
+        "grade": "L1",
+        "advice": "按研究目的决定留删；小样本慎用自动剔除，建议结合可视化确认。",
+        "keywords": [
+          "数值x",
+          "数值y",
+          "维度1",
+          "维度2"
+        ],
+        "applicable_fields": [
+          "数值x",
+          "数值y"
+        ]
+      }
+    ],
+    "viz": [
+      "density",
+      "ridge",
+      "scatter",
+      "line",
+      "heatmap",
+      "grouped"
+    ]
+  },
+  {
+    "key": "general",
+    "name": "通用（全学科高频基础图表）",
+    "alias": [
+      "通用"
+    ],
+    "keywords": [
+      "x数值",
+      "y数值",
+      "子组",
+      "数值",
+      "时间",
+      "计数",
+      "维度1",
+      "维度2",
+      "类别",
+      "分组"
+    ],
+    "directions": [],
+    "rules": [
+      {
+        "id": "general_basic",
+        "method": "iqr",
+        "factor": 1.5,
+        "grade": "L1",
+        "advice": "通用稳健默认；当数据有明确学科归属时，优先选用对应学科专属规则以提升精度。",
+        "keywords": [
+          "数值",
+          "x数值",
+          "y数值"
+        ],
+        "applicable_fields": [
+          "数值",
+          "x数值",
+          "y数值"
+        ]
+      }
+    ],
+    "viz": [
+      "errorbar",
+      "line",
+      "multiline",
+      "box",
+      "heatmap",
+      "scatter",
+      "pie",
+      "stacked"
+    ]
+  }
+]

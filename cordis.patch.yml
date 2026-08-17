@@ -1,0 +1,6 @@
+# DeepSeek Harness 插件注册清单
+# `dsh plugin add` 安装本包后会把下面声明的插件插入宿主的 Cordis 插件表，
+# 使其在 Harness 启动时自动加载（与 dsh-vision 的 insert 机制一致）。
+- insert:
+    - id: dsh-baichuan-shuhui
+      name: "@baichuan-shuhui/dsh-baichuan-shuhui"
