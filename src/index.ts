@@ -1,5 +1,5 @@
 /**
- * dsh-baichuan-shuhui — 百川数汇科研统计分析 · DeepSeek Harness 插件
+ * BaiChuanShuHui_dsh — 百川数汇科研统计分析 · DeepSeek Harness 插件
  *
  * 设计
  * ----
@@ -17,7 +17,7 @@
  * JSON-Schema 工具定义（MCP 来源的工具正是如此进入系统）——见
  * docs/cookbook/extension-cookbook.md 的 "A tool plugin" 一节。
  *
- * @module @baichuan-shuhui/dsh-baichuan-shuhui
+ * @module @dcnmdv9dkm-source/BaiChuanShuHui_dsh
  */
 
 import { spawn, execFileSync } from 'node:child_process'
@@ -26,7 +26,7 @@ import { dirname, join } from 'node:path'
 
 // Cordis 插件约定导出 name / inject / apply；ctx 由宿主注入（这里以 any 承载，
 // 避免插件构建期依赖 @deepseek-ai/* 类型包，运行时由 Harness 提供）。
-export const name = 'dsh-baichuan-shuhui'
+export const name = 'BaiChuanShuHui_dsh'
 export const inject = ['tools']
 
 // lib/index.js -> package root -> python/bcsh_run_tool.py
@@ -95,7 +95,7 @@ export function apply(ctx: any): void {
     })
     defs = JSON.parse(raw)
   } catch (err) {
-    ctx.logger?.error?.('dsh-baichuan-shuhui: 无法从内核获取工具清单，插件未注册任何工具。')
+    ctx.logger?.error?.('BaiChuanShuHui_dsh: 无法从内核获取工具清单，插件未注册任何工具。')
     ctx.logger?.error?.(err as Error)
     return
   }
@@ -119,5 +119,5 @@ export function apply(ctx: any): void {
     })
   }
 
-  ctx.logger?.info?.(`dsh-baichuan-shuhui: 已注册 ${defs.length} 个百川数汇工具`)
+  ctx.logger?.info?.(`BaiChuanShuHui_dsh: 已注册 ${defs.length} 个百川数汇工具`)
 }

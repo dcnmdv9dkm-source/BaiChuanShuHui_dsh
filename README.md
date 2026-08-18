@@ -1,4 +1,4 @@
-# dsh-baichuan-shuhui
+# BaiChuanShuHui_dsh
 
 **BaiChuanShuHui (百川数汇)科研数据清洗与统计分析引擎 — 原生 DeepSeek Harness 工具插件**
 
@@ -6,7 +6,7 @@ English | [中文](README.zh.md)
 
 [![CI](https://img.shields.io/badge/CI-passing-green)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](#) [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-0.1.0--rc.6-blue)](#)
 
-`dsh-baichuan-shuhui` is a plugin for **DeepSeek Harness**. It exposes the
+`BaiChuanShuHui_dsh` is a plugin for **DeepSeek Harness**. It exposes the
 BaiChuanShuHui statistical engine — a zero-dependency Python CLI with **30+ subcommands**
 covering data cleaning, descriptive statistics, hypothesis testing, ANOVA, regression,
 IRT, CFA, SEM, power analysis, and discipline-aware visualization — as **native model-facing
@@ -36,7 +36,7 @@ implementations.
 Use the plugin manager built into DeepSeek Harness:
 
 ```sh
-npx @deepseek-ai/dsh plugin --profile web add github:baichuan-shuhui/dsh-baichuan-shuhui
+npx @deepseek-ai/dsh plugin --profile web add github:dcnmdv9dkm-source/BaiChuanShuHui_dsh
 ```
 
 Restart Harness. The plugin then registers its tools automatically; no settings card is required.
@@ -45,11 +45,6 @@ and it will call the matching tool.
 
 > DeepSeek Harness is still in Developer Preview. This release targets `0.1.0-rc.6` exactly.
 > If your Harness is on a different preview build, bump the `peerDependencies` in `package.json`.
-
-> **Rename before publishing:** the command above assumes the repo lives at
-> `github.com/baichuan-shuhui/dsh-baichuan-shuhui` and the package `name` is
-> `@baichuan-shuhui/dsh-baichuan-shuhui`. Push the folder to *your* GitHub account/org and replace
-> both the `github:` owner and the `name` field accordingly.
 
 ## Configure
 
@@ -90,7 +85,7 @@ The Python side is testable on its own:
 ```sh
 python3 python/bcsh_run_tool.py --list          # list 30+ subcommands
 python3 python/bcsh_run_tool.py --emit-tools    # print the JSON-Schema tool definitions
-python3 python/bcsh_run_tool.py clean '{"input_file":"data.csv"}'
+python3 python/bcsh_run_tool.py clean '{"input":"data.csv"}'
 ```
 
 The project is available under the [MIT License](LICENSE). The statistical engine

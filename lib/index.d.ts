@@ -1,6 +1,6 @@
 //#region src/index.d.ts
 /**
- * dsh-baichuan-shuhui — 百川数汇科研统计分析 · DeepSeek Harness 插件
+ * BaiChuanShuHui_dsh — 百川数汇科研统计分析 · DeepSeek Harness 插件
  *
  * 设计
  * ----
@@ -18,9 +18,9 @@
  * JSON-Schema 工具定义（MCP 来源的工具正是如此进入系统）——见
  * docs/cookbook/extension-cookbook.md 的 "A tool plugin" 一节。
  *
- * @module @baichuan-shuhui/dsh-baichuan-shuhui
+ * @module @dcnmdv9dkm-source/BaiChuanShuHui_dsh
  */
-declare const name = "dsh-baichuan-shuhui";
+declare const name = "BaiChuanShuHui_dsh";
 declare const inject: string[];
 declare function apply(ctx: any): void;
 //#endregion

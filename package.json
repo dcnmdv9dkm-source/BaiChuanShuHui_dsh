@@ -1,5 +1,5 @@
 {
-  "name": "@baichuan-shuhui/dsh-baichuan-shuhui",
+  "name": "@dcnmdv9dkm-source/BaiChuanShuHui_dsh",
   "version": "0.1.0",
   "description": "百川数汇科研数据清洗与统计分析引擎的 DeepSeek Harness 插件：30+ 子命令以原生工具形式暴露给模型",
   "license": "MIT",
@@ -24,11 +24,11 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baichuan-shuhui/dsh-baichuan-shuhui.git"
+    "url": "git+https://github.com/dcnmdv9dkm-source/BaiChuanShuHui_dsh.git"
   },
-  "homepage": "https://github.com/baichuan-shuhui/dsh-baichuan-shuhui#readme",
+  "homepage": "https://github.com/dcnmdv9dkm-source/BaiChuanShuHui_dsh#readme",
   "bugs": {
-    "url": "https://github.com/baichuan-shuhui/dsh-baichuan-shuhui/issues"
+    "url": "https://github.com/dcnmdv9dkm-source/BaiChuanShuHui_dsh/issues"
   },
   "keywords": [
     "deepseek-harness",
