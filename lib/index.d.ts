@@ -1,4 +1,4 @@
-//#region src/index.d.ts
+//#region ../src/index.d.ts
 /**
  * BaiChuanShuHui_dsh — 百川数汇科研统计分析 · DeepSeek Harness 插件
  *

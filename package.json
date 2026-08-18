@@ -51,8 +51,8 @@
     }
   },
   "scripts": {
-    "build": "tsdown",
-    "typecheck": "tsc --noEmit",
+    "build": "tsdown --config dev/tsdown.config.ts",
+    "typecheck": "tsc --noEmit -p dev/tsconfig.json",
     "test": "node --test",
     "check": "pnpm typecheck && pnpm build",
     "prepack": "pnpm build"
